@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/xemyleigh/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6"
+    "@hexlet/chat-server": "^1.1.6",
+    "formik": "^2.2.9",
+    "react-router-dom": "^6.4.2",
+    "yup": "^0.32.11"
   }
 }

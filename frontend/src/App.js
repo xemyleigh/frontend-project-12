@@ -1,9 +1,13 @@
-function App() {
+import React from 'react';
+import LoginForm from './components/LoginForm';
+
+const App = () => {
   return (
-    <div className="container">
-      <h1>APPPPddfgfdg45345345PPPP</h1>
-    </div>
+    <>
+      <h1>APPPPddfgfdgPPP33dfsdfsd43dfdsf4234P</h1>
+      <LoginForm />
+    </>
   )
-}
+};
 
 export default App;
