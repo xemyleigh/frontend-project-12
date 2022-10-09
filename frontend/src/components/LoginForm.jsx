@@ -2,9 +2,8 @@ import React from 'react';
 import { useFormik } from 'formik';
 import Form from '../../node_modules/react-bootstrap/Form'
 import Button from '../../node_modules/react-bootstrap/Button'
-import yup from '../../node_modules/yup'
+import * as yup from 'yup';
 
-console.log(useFormik);
 
 const SignupForm = () => {
   // Pass the useFormik() hook initial form values and a submit function that will
@@ -14,7 +13,12 @@ const SignupForm = () => {
         nickname: '',
         password: '',
     },
+    validationSchema: yup.object({
+        nickname: yup.string().required('Required'),
+        password: yup.string().required('Required')
+    }),
     onSubmit: (values) => {
+        console.log(formik)
       console.log(JSON.stringify(values, null, 2));
     },
   });
@@ -34,10 +38,13 @@ const SignupForm = () => {
                                 <Form.Group>
                                     <Form.Label>Nickname</Form.Label>
                                     <Form.Control type="nickname" id="nickname" name="nickname"placeholder="nickname" onChange={formik.handleChange} value={formik.values.nickname}/>
+                                    <div>{formik.errors.nickname}</div>
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control type="password" id="password" name="password"placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
+                                    <div>{formik.errors.password}</div>
+
                                 </Form.Group>
                                 <Button type="submit">Submit</Button>
                             </Form>
