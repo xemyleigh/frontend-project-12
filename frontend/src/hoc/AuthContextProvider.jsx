@@ -14,6 +14,7 @@ export const AuthContextProvider = ({children}) => {
         localStorage.setItem('token', data.token)
         console.log(data);
         setUsername(data.username)
+        navigate('/', { replace: true })
     }
 
     const signOut = () => {
