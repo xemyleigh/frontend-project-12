@@ -3,23 +3,32 @@ import { useFormik } from 'formik';
 import Form from '../../node_modules/react-bootstrap/Form'
 import Button from '../../node_modules/react-bootstrap/Button'
 import * as yup from 'yup';
+import useAuth from '../hooks/useAuth';
+import { useState } from 'react';
 
 
 const SignupForm = () => {
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
+    const { signIn, setUsername } = useAuth()
+    const [authFailed, setAuthFailed] = useState(false)
+
   const formik = useFormik({
     initialValues: {
-        nickname: '',
+        username: '',
         password: '',
     },
     validationSchema: yup.object({
-        nickname: yup.string().required('Required'),
+        username: yup.string().required('Required'),
         password: yup.string().required('Required')
     }),
-    onSubmit: (values) => {
-        console.log(formik)
-      console.log(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+        console.log(JSON.stringify(values, null, 2));
+        try {
+            const username = formik.values.username
+            await signIn(username, formik.values.password)
+            setUsername(username)    
+        } catch(e) {
+            if (e.response.status === 401) setAuthFailed(true)
+        }
     },
   });
   return (
@@ -33,15 +42,14 @@ const SignupForm = () => {
             <div className='col-5'>
                 <Form onSubmit={formik.handleSubmit} >
                     <Form.Group>
-                        <Form.Label>Nickname</Form.Label>
-                        <Form.Control type="nickname" id="nickname" name="nickname"placeholder="nickname" onChange={formik.handleChange} value={formik.values.nickname}/>
-                        <div>{formik.errors.nickname}</div>
+                        <Form.Label>username</Form.Label>
+                        <Form.Control type="username" id="username" name="username"placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
+                        <div>{formik.errors.password}</div>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Password</Form.Label>
                         <Form.Control type="password" id="password" name="password"placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
-                        <div>{formik.errors.password}</div>
-
+                        {authFailed && <div>Неверное имя или пароль</div>}
                     </Form.Group>
                     <Button type="submit">Submit</Button>
                 </Form>

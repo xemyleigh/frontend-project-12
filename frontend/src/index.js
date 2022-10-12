@@ -1,4 +1,4 @@
-import React, { Provider } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter as Router
@@ -11,10 +11,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     {/* <Router> */}
-    <Router>
-      <App />
+      <Router>
+        <App />
 
-    </Router>
+      </Router>
     {/* </Router> */}
   </React.StrictMode>,
 );
+

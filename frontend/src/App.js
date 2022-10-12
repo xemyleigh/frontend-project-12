@@ -3,21 +3,26 @@ import LoginForm from './components/LoginForm';
 import NotFoundPage from './components/NotFoundPage';
 import Home from './components/Home';
 import Layout from './components/Layout' 
-import { Routes, Rote, Link, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import RequireAuth from './hoc/RequireAuth'
+import { AuthContextProvider } from './hoc/AuthContextProvider';
+
 
 const App = () => {
   return (
-    <>
-      <header>
-      </header>
+    <AuthContextProvider>
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
+           <Route index element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }/>
           <Route path='login' element={<LoginForm />} />
           <Route path='*' element={<NotFoundPage />}/>
         </Route>
       </Routes>
-    </>
+    </AuthContextProvider>
   )
 };
 
