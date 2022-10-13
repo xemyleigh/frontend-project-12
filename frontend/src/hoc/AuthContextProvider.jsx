@@ -24,8 +24,10 @@ export const AuthContextProvider = ({children}) => {
         navigate('/login', { replace: true })
     }
 
+    const getAuthHeader = () => { return { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
+
     return (
-        <AuthContext.Provider value={ { setUsername, signIn, username, signOut } }>
+        <AuthContext.Provider value={ { setUsername, signIn, username, signOut, getAuthHeader } }>
             {children}
         </AuthContext.Provider>
     )
