@@ -6,16 +6,17 @@ import {
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/js/dist/collapse'
+import { Provider } from 'react-redux';
+import store from './slices/index'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* <Router> */}
+    <Provider store={store}>
       <Router>
         <App />
-
       </Router>
-    {/* </Router> */}
+    </Provider>
   </React.StrictMode>,
 );
 

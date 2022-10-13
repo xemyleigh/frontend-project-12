@@ -7,6 +7,8 @@ import { Routes, Route } from 'react-router-dom';
 import RequireAuth from './hoc/RequireAuth'
 import { AuthContextProvider } from './hoc/AuthContextProvider';
 
+import ChatPage from './components/ChatPage';
+
 
 const App = () => {
   return (
@@ -14,10 +16,10 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Layout />}>
            <Route index element={
-            <RequireAuth>
-              <Home />
-            </RequireAuth>
-          }/>
+              // <RequireAuth>
+                <ChatPage />
+              // </RequireAuth>
+           }/>
           <Route path='login' element={<LoginForm />} />
           <Route path='*' element={<NotFoundPage />}/>
         </Route>
