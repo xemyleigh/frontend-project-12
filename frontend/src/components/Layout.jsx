@@ -4,9 +4,6 @@ import useAuth from "../hooks/useAuth";
 
 const Layout = () => {
     const { signOut, username } = useAuth()
-    console.log(useAuth())
-    console.log(username)
-    console.log(signOut)
     return (
         <>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -28,12 +25,8 @@ const Layout = () => {
                     </div>
                 </div>
             </nav>
-            <div className='container-fliud'>
-                <div className='row align-content-center justify-content-center'>
-                    <div className='col-6'>
-                        <Outlet />
-                    </div>
-                </div>
+            <div className='container my-4 rounded shadow'>
+                <Outlet />
             </div>
         </>
     )

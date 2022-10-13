@@ -21,7 +21,6 @@ const SignupForm = () => {
         password: yup.string().required('Required')
     }),
     onSubmit: async (values) => {
-        console.log(JSON.stringify(values, null, 2));
         try {
             const username = formik.values.username
             await signIn(username, formik.values.password)
@@ -32,31 +31,39 @@ const SignupForm = () => {
     },
   });
   return (
-    <div className='card'>
-        <div className="card-body mb-3 row justify-content-center">
-            <div className='col-5'>
-                <img src="..." className="card-img-top" alt="" />
-                <p>IMAGE IS GONNA BE HERE</p>
-            </div>
+    <div className='row align-content-center justify-content-center'>
 
-            <div className='col-5'>
-                <Form onSubmit={formik.handleSubmit} >
-                    <Form.Group>
-                        <Form.Label>username</Form.Label>
-                        <Form.Control type="username" id="username" name="username"placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
-                        <div>{formik.errors.password}</div>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" id="password" name="password"placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
-                        {authFailed && <div>Неверное имя или пароль</div>}
-                    </Form.Group>
-                    <Button type="submit">Submit</Button>
-                </Form>
+        <div className='col-6'>
 
+            <div className='card'>
+                <div className="card-body mb-3 row justify-content-center">
+                    <div className='col-5'>
+                        <img src="..." className="card-img-top" alt="" />
+                        <p>IMAGE IS GONNA BE HERE</p>
+                    </div>
+
+                    <div className='col-5'>
+                        <Form onSubmit={formik.handleSubmit} >
+                            <Form.Group>
+                                <Form.Label>username</Form.Label>
+                                <Form.Control type="username" id="username" name="username"placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
+                                <div>{formik.errors.password}</div>
+                            </Form.Group>
+                            <Form.Group>
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" id="password" name="password"placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
+                                {authFailed && <div>Неверное имя или пароль</div>}
+                            </Form.Group>
+                            <Button type="submit">Submit</Button>
+                        </Form>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+
+
     )
 }
 
