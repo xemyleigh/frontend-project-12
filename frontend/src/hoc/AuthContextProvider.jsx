@@ -4,22 +4,22 @@ import axios from 'axios'
 
 export const AuthContext = createContext(null)
 
-export const AuthContextProvider = ({children}) => {
-    console.log(children)
+const AuthContextProvider = ({children}) => {
     const [username, setUsername] = useState('')
     const navigate = useNavigate()
 
     const signIn = async (username, password) => {
         const { data } = await axios.post('/api/v1/login', { username, password })
         localStorage.setItem('token', data.token)
-        console.log(data);
-        setUsername(data.username)
+        localStorage.setItem('name', username)
+        setUsername(localStorage.getItem('name'))
         navigate('/', { replace: true })
     }
 
     const signOut = () => {
         localStorage.removeItem('token')
-        setUsername('')
+        localStorage.removeItem('name')
+        setUsername(localStorage.getItem('name'))
         // return <Navigate to='/login' />
         navigate('/login', { replace: true })
     }
@@ -32,3 +32,5 @@ export const AuthContextProvider = ({children}) => {
         </AuthContext.Provider>
     )
 }
+
+export default AuthContextProvider

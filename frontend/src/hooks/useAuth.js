@@ -1,9 +1,13 @@
 import { useContext } from "react"
+import { ApiContext } from "../hoc/ApiContextProvider"
 import { AuthContext } from "../hoc/AuthContextProvider"
 
 
-const useAuth = () => {
+export const useAuth = () => {
     return useContext(AuthContext)
 }
 
-export default useAuth
+export const useApi = () => {
+    return useContext(ApiContext)
+}
+
