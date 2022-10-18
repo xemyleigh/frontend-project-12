@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useApi, useAuth } from '../hooks/useAuth'
 import { actions as messageActions } from '../slices/messagesSlice'
 
@@ -15,7 +15,6 @@ const Message = ({ body, channelId, username }) => {
 const ChatContainer = () => {
 
     const [ value, setValue ] = useState('')
-    const dispatch = useDispatch()
     const { sendMessage, subscribeNewMessages } = useApi()
     const { username } = useAuth()
 
@@ -24,19 +23,16 @@ const ChatContainer = () => {
     const channels = useSelector(state => state.channels.channels)
 
     const currentChannel = channels.find(channel => channel.id === currentChannelId)
+    const filteredMessage = messages.filter(message => {
+        return message.channelId === currentChannelId
+    })
 
     const inputHandler = (e) => {
         setValue(e.target.value)
     }
 
-    subscribeNewMessages((payload) => {
-        const obj = { payload }
-        dispatch(messageActions.createNewMessage(obj))
-    })
-
     const submitHandler = (e) => {
         e.preventDefault()
-        dispatch(messageActions.createNewMessage({ value, currentChannelId, username }))
         sendMessage(value, currentChannelId, username)
     }
 
@@ -45,11 +41,11 @@ const ChatContainer = () => {
         <div className="col p-0 h-100">
             <div className='d-flex flex-column' style={{height: 85 + 'vh'}} >
                 <div className="bg-light shadow mb-4 p-3">
-                    <p className='m-0'>{currentChannel?.name}</p>
+                    <p className='m-0'># {currentChannel?.name}</p>
                     <span className='text-muted'>MessagesCount</span>
                 </div>
                 <div className='px-5 overflow-auto'>
-                    {messages.map(({id, body, channelId, username}) => <Message key={id} username={username} channelId={channelId} body={body}/>)}
+                    {filteredMessage.map(({id, body, channelId, username}) => <Message key={id} username={username} channelId={channelId} body={body}/>)}
                 </div>
                 <div className="mt-auto px-5 py-3">
                     <form className="py-1 border rounded-2" onSubmit={submitHandler}>

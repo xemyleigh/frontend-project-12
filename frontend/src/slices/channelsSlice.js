@@ -12,23 +12,25 @@ const channelsSlice = createSlice({
         },
 
         removeChannel(state, { payload }) {
-            const id = payload
-            console.log(payload)
+            const { id } = payload
             const filteredChannels = state.channels.filter(channel => channel.id !== id)
-            console.log(filteredChannels)
             state.channels = filteredChannels
         },
 
         renameChannel(state, { payload }) {
-            const { id, body } = payload
+            const { id, name } = payload
             const channelToRename = state.channels.find(channel => channel.id === id)
-            channelToRename.body = body
+            channelToRename.name = name
         },
 
         setChannel(state, { payload }) {
             const id = payload
             state.currentChannelId = id
         },
+
+        addChannel(state, { payload }) {
+            state.channels.push(payload)
+        }
     }
 })
 
