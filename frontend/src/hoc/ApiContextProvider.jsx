@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux'
 export const ApiContext = createContext(null)
 
 const ApiContextProvider = ({ children }) => {
-    const socket = io('http://localhost:5001')
+    const socket = io()
     const dispatch = useDispatch()
 
     const removeChannel = (id) => {

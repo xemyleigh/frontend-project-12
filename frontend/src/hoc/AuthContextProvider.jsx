@@ -20,7 +20,6 @@ const AuthContextProvider = ({children}) => {
         localStorage.removeItem('token')
         localStorage.removeItem('name')
         setUsername(localStorage.getItem('name'))
-        // return <Navigate to='/login' />
         navigate('/login', { replace: true })
     }
 

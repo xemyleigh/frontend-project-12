@@ -1,11 +1,9 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { actions as channelsActions } from '../slices/channelsSlice'
 import { actions as modalActions } from '../slices/modalSlice'
-import { useApi } from '../hooks/useAuth'
 
 const Channel = ({ value, isCurrent, id, removable }) => {
     const dispatch = useDispatch()
-    const { removeChannel, renameChannel } = useApi()
 
     const removeChannelHandler = (id) => () => {
         console.log(id)
@@ -35,11 +33,7 @@ const Channel = ({ value, isCurrent, id, removable }) => {
                         <ul className="dropdown-menu">
                             <li><a className="dropdown-item" href="#" onClick={removeChannelHandler(id)}>Удалить</a></li>
                             <li><hr className="dropdown-divider" /></li>
-                            <li>
-                                <button type="button" onClick={renameChannelHandler(id)} className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                                    Переименовать
-                                </button>
-                            </li>
+                            <li><a onClick={renameChannelHandler(id)} className="dropdown-item" href='#'>Переименовать</a></li>
                         </ul>
                     </>
                 )}
