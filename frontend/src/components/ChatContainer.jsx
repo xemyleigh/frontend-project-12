@@ -33,6 +33,8 @@ const ChatContainer = () => {
 
     const submitHandler = (e) => {
         e.preventDefault()
+        console.log('USERNAME DURUNG MESSAGE SENDING', username)
+
         sendMessage(value, currentChannelId, username)
     }
 

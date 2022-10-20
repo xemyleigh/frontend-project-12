@@ -13,6 +13,7 @@ const AuthContextProvider = ({children}) => {
         localStorage.setItem('token', data.token)
         localStorage.setItem('name', username)
         setUsername(localStorage.getItem('name'))
+        console.log('CURRENT USERNAME:', username)
         navigate('/', { replace: true })
     }
 
