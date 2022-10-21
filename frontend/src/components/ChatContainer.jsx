@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useApi, useAuth } from '../hooks/useAuth'
-import { actions as messageActions } from '../slices/messagesSlice'
-
+import { animateScroll } from 'react-scroll'
 
 const Message = ({ body, channelId, username }) => {
     return (
@@ -31,22 +30,30 @@ const ChatContainer = () => {
         setValue(e.target.value)
     }
 
+    useEffect(() => {
+        console.log(filteredMessage.length)
+        animateScroll.scrollToBottom({ containerId: 'chatContainer', delay: 0, duration: 600 })
+    }, [filteredMessage.length])
+
     const submitHandler = (e) => {
         e.preventDefault()
-        console.log('USERNAME DURUNG MESSAGE SENDING', username)
-
-        sendMessage(value, currentChannelId, username)
+        try {
+            sendMessage(value, currentChannelId, username)
+            setValue('')
+        } catch(e) {
+            console.log(e)
+        }
     }
 
 
     return (
         <div className="col p-0 h-100">
-            <div className='d-flex flex-column' style={{height: 85 + 'vh'}} >
+            <div className='d-flex flex-column' style={{height: 75 + 'vh'}} >
                 <div className="bg-light shadow mb-4 p-3">
                     <p className='m-0'># {currentChannel?.name}</p>
-                    <span className='text-muted'>MessagesCount</span>
+                    <span className='text-muted'>{filteredMessage.length} сообщений</span>
                 </div>
-                <div className='px-5 overflow-auto'>
+                <div className='px-5 overflow-auto' id='chatContainer'>
                     {filteredMessage.map(({id, body, channelId, username}) => <Message key={id} username={username} channelId={channelId} body={body}/>)}
                 </div>
                 <div className="mt-auto px-5 py-3">

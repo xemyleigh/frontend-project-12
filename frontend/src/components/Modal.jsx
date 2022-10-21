@@ -81,7 +81,7 @@ const RemoveChannelModal = () => {
         try {
             loading = true
             await removeChannel(id)
-            // dispatch(modalActions.closeModal())
+            dispatch(modalActions.closeModal())
             if (id === currentChannelId) {
                 dispatch(channelsActions.setChannel(1))
             }
@@ -121,9 +121,6 @@ const RenameChannelModal = () => {
     const channels = useSelector(state => state.channels.channels)
     const channelsNames = channels.map(channel => channel.name)
     const idToRename = useSelector(state => state.modalInfo.channelId)
-
-    console.log(idToRename)
-
 
     const closeHandler = () => {
         dispatch(modalActions.closeModal())
