@@ -5,7 +5,8 @@ import axios from 'axios'
 export const AuthContext = createContext(null)
 
 const AuthContextProvider = ({children}) => {
-    const [username, setUsername] = useState('')
+    const currentUser = localStorage.getItem('name')
+    const [username, setUsername] = useState(currentUser || '')
     const navigate = useNavigate()
 
     const signIn = async (username, password) => {

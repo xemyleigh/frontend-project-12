@@ -3,14 +3,12 @@ import { io } from 'socket.io-client'
 import { actions as channelsActions } from '../slices/channelsSlice'
 import { actions as messageActions } from '../slices/messagesSlice'
 import { useDispatch } from 'react-redux'
-import { useAuth } from '../hooks/useAuth'
 
 export const ApiContext = createContext(null)
 
 const ApiContextProvider = ({ children }) => {
     const socket = io()
     const dispatch = useDispatch()
-    const { signOut } = useAuth()
 
     const removeChannel = (id) => {
         console.log('!!!!!!', id)
@@ -29,10 +27,8 @@ const ApiContextProvider = ({ children }) => {
     }
 
     socket.on('newMessage', (payload) => {
+        console.log('ПОДПИСКА ОФОРМЕЛНА НА СООБЩЕНИЯ')
         console.log(payload); // => { body: "new message", channelId: 7, id: 8, username: "admin" }
-        // if (payload.username === '') {
-        //     signOut()
-        // }
         dispatch(messageActions.createNewMessage(payload))
     })
 
@@ -52,20 +48,13 @@ const ApiContextProvider = ({ children }) => {
 
 
 
-    const subscribeNewMessages = () => {
-        socket.on('newMessage', (payload) => {
-            const obj = { payload }
-            console.log(payload)
-            dispatch(messageActions.createNewMessage(obj))
-        })
-    }
 
     const sendMessage = (body, channelId, username) => {
         socket.emit('newMessage', { body, channelId, username });
     }
 
     return (
-        <ApiContext.Provider value={{ removeChannel, subscribeNewMessages, sendMessage, addChannel, renameChannel }}>
+        <ApiContext.Provider value={{ removeChannel, sendMessage, addChannel, renameChannel }}>
             { children }    
         </ApiContext.Provider>
     )

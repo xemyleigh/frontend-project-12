@@ -11,9 +11,6 @@ import ApiContextProvider from './hoc/ApiContextProvider';
 import ChatPage from './components/ChatPage';
 
 const App = () => {
-
-  console.log(localStorage.getItem('token'))
-
   return (
     <AuthContextProvider>
       <ApiContextProvider>

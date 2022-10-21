@@ -15,7 +15,7 @@ const Message = ({ body, channelId, username }) => {
 const ChatContainer = () => {
 
     const [ value, setValue ] = useState('')
-    const { sendMessage, subscribeNewMessages } = useApi()
+    const { sendMessage } = useApi()
     const { username } = useAuth()
 
     const messages = useSelector(store => store.messages.messages)
