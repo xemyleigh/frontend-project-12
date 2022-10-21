@@ -48,7 +48,7 @@ const ChatContainer = () => {
 
     return (
         <div className="col p-0 h-100">
-            <div className='d-flex flex-column' style={{height: 75 + 'vh'}} >
+            <div className='d-flex flex-column' style={{height: 81 + 'vh'}} >
                 <div className="bg-light shadow mb-4 p-3">
                     <p className='m-0'># {currentChannel?.name}</p>
                     <span className='text-muted'>{filteredMessage.length} сообщений</span>

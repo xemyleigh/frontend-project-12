@@ -37,7 +37,7 @@ const SignupForm = () => {
         <div className='row align-content-center justify-content-center'>
             <div className='col-12 col-md-8 col-xxl-6'>
                 <div className='card mt-5'>
-                    <div className="card-body row justify-content-center m-0 p-5">
+                    <div className="card-body row justify-content-center m-0 p-sm-5">
 
                         <div className='col-12 col-md-6 d-flex align-items-center justify-content-center'>
                             <img src={login} className="rounded-circle img" alt="" />
@@ -60,7 +60,7 @@ const SignupForm = () => {
                             </Form>
                         </div>
                     </div>
-                    <div className="card-footer p-4 text-center">Нет аккаунта? <Link to='/signup'>Регистрация</Link></div>
+                    <div className="card-footer p-sm-4 text-center">Нет аккаунта? <Link to='/signup'>Регистрация</Link></div>
 
                 </div>
             </div>
