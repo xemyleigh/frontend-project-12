@@ -9,12 +9,13 @@ import { useNavigate } from "react-router-dom"
 import axios from 'axios'
 import { useState } from "react"
 import { useAuth } from "../hooks/useAuth"
+import { useTranslation } from "react-i18next"
 
 
 const Signup = () => {
     const navigate = useNavigate()
     const { signIn } = useAuth()
-    console.log(signIn)
+    const { t } = useTranslation()
 
     const [ userAlreadyExists, setUserExistsState ] = useState(false)
     
@@ -26,9 +27,9 @@ const Signup = () => {
             repeatPassword: ''
         },
         validationSchema: yup.object({
-            username: yup.string().min(3).max(20).required('Обязательное поле'),
-            password: yup.string().min(6).required('Обязательное поле'),
-            repeatPassword: yup.string().oneOf([yup.ref('password'), null], 'Пароли должны совпадать')
+            username: yup.string().min(3, t('signup.usernameConstraints')).max(20).required(t('signup.required')),
+            password: yup.string().min(6, t('signup.passMin')).required(t('signup.required')),
+            repeatPassword: yup.string().oneOf([yup.ref('password'), null], t('signup.mustMatch'))
             }),
         onSubmit: async (values) => {
             setUserExistsState(false)
@@ -66,9 +67,9 @@ const Signup = () => {
 
                         <div className='col-12 col-md-6 d-flex justify-content-center'>
                             <Form noValidate validated={false} onSubmit={formik.handleSubmit} className='w-100' >
-                                <h1 className='mb-3 text-center'>Регистрация</h1>
+                                <h1 className='mb-3 text-center'>{t('signup.header')}</h1>
                                 <Form.Group className='form-floating mb-3'>
-                                    <FloatingLabel className='' label='Username'>
+                                    <FloatingLabel className='' label={t('signup.username')}>
                                         <Form.Control onBlur={formik.handleBlur} type="username" isInvalid={(formik.errors.username || userAlreadyExists) || false} id="username" name="username" placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
                                                 {formik.errors.username}
@@ -77,7 +78,7 @@ const Signup = () => {
                                 </Form.Group>
 
                                 <Form.Group className='form-floating mb-3'>
-                                    <FloatingLabel className='' label='Password'>
+                                    <FloatingLabel className='' label={t('signup.password')}>
                                         <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={(formik.errors.password || userAlreadyExists) || false} id="password" name="password" placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
                                             {formik.errors.password}
@@ -86,15 +87,15 @@ const Signup = () => {
                                 </Form.Group>
 
                                 <Form.Group className='mb-3 '>
-                                    <FloatingLabel className='' label='repeatPassword'>
+                                    <FloatingLabel className='' label={t('signup.confirm')}>
                                         <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={(formik.errors.repeatPassword || userAlreadyExists) || false} id="repeatPassword" name="repeatPassword" placeholder="repeatPassword" onChange={formik.handleChange} value={formik.values.repeatPassword}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
-                                            {formik.errors.repeatPassword || (userAlreadyExists) && 'user already exists'}
+                                            {formik.errors.repeatPassword || (userAlreadyExists) && t('signup.alreadyExists')}
                                         </Form.Control.Feedback>
                                     </FloatingLabel>
                                 </Form.Group>
 
-                                <Button type="submit" disabled={!formik.isValid} className='w-100 mb-3'>Войти</Button>
+                                <Button type="submit" disabled={!formik.isValid} className='w-100 mb-3'>{t('signup.submit')}</Button>
                             </Form>
                         </div>
                     </div>

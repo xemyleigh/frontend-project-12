@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from "react-redux"
 import { actions as modalActions } from "../slices/modalSlice"
 import { actions as channelsActions } from "../slices/channelsSlice"
 import { useApi } from "../hooks/useAuth"
+import { useTranslation } from "react-i18next"
 
 const AddChannelModal = () => {
     const dispatch = useDispatch()
     const { addChannel } = useApi()
     const channels = useSelector(state => state.channels.channels)
     const channelsNames = channels.map(channel => channel.name)
+    const { t } = useTranslation()
 
 
     const closeHandler = () => {
@@ -42,18 +44,18 @@ const AddChannelModal = () => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <div className="modal-title h4">Добавить канал</div>
+                            <div className="modal-title h4">{t('modals.add')}</div>
                             <button type="button" aria-label="Close" onClick={closeHandler} data-bs-dismiss="modal" className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={formik.handleSubmit}>
                                 <div>
                                     <input className="mb-2 form-control" name="newValue" id='newValue' value={formik.values.newValue} onChange={formik.handleChange} ref={input}/>
-                                    <label className="visually-hidden" htmlFor="name">Имя канала</label>
+                                    <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
                                     <div className="invalid-feedback"></div>
                                     <div className="d-flex justify-content-end">
-                                        <button type="button" className="me-2 btn btn-secondary">Отменить</button>
-                                        <button type="submit" className="btn btn-primary">Отправить</button>
+                                        <button type="button" className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
+                                        <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
                                     </div>
                                 </div>
                             </form>
@@ -70,6 +72,8 @@ const RemoveChannelModal = () => {
     const { removeChannel } = useApi()
     const idToRemove = useSelector(state => state.modalInfo.channelId)
     const currentChannelId = useSelector(state => state.channels.currentChannelId)
+    const { t } = useTranslation()
+
 
     let loading = false
 
@@ -97,14 +101,14 @@ const RemoveChannelModal = () => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <div className="modal-title h4">Удалить канал</div>
+                            <div className="modal-title h4">{t('modals.remove')}</div>
                             <button type="button" aria-label="Close" onClick={closeHandler} data-bs-dismiss="modal" className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
                             <div>
                                 <div className="d-flex justify-content-end gap-2">
-                                    <button type="" onClick={closeHandler} disabled={loading} className="btn btn-secondary mr-2">Отменить</button>
-                                    <button onClick={removeHandler(idToRemove)} disabled={loading} className="btn btn-danger">Удалить</button>
+                                    <button type="" onClick={closeHandler} disabled={loading} className="btn btn-secondary mr-2">{t('modals.cancel')}</button>
+                                    <button onClick={removeHandler(idToRemove)} disabled={loading} className="btn btn-danger">{t('modals.confirm')}</button>
                                 </div>
                             </div>
                         </div>
@@ -121,6 +125,7 @@ const RenameChannelModal = () => {
     const channels = useSelector(state => state.channels.channels)
     const channelsNames = channels.map(channel => channel.name)
     const idToRename = useSelector(state => state.modalInfo.channelId)
+    const { t } = useTranslation()
 
     const closeHandler = () => {
         dispatch(modalActions.closeModal())
@@ -152,18 +157,18 @@ const RenameChannelModal = () => {
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <div className="modal-title h4">Переименовать канал</div>
+                            <div className="modal-title h4">{t('modals.rename')}</div>
                             <button type="button" aria-label="Close" onClick={closeHandler} data-bs-dismiss="modal" className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
                             <form onSubmit={formik.handleSubmit}>
                                 <div>
                                     <input className="mb-2 form-control" name="newValue" id='newValue' value={formik.values.newValue} onChange={formik.handleChange} ref={input}/>
-                                    <label className="visually-hidden" htmlFor="name">Новое имя канала</label>
+                                    <label className="visually-hidden" htmlFor="name">{t('modals.editChannelName')}</label>
                                     <div className="invalid-feedback"></div>
                                     <div className="d-flex justify-content-end">
-                                        <button type="button" className="me-2 btn btn-secondary">Отменить</button>
-                                        <button type="submit" className="btn btn-primary">Отправить</button>
+                                        <button type="button" className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
+                                        <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
                                     </div>
                                 </div>
                             </form>

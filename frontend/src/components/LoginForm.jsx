@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useTransition } from 'react';
 import { useFormik } from 'formik';
 import Form from '../../node_modules/react-bootstrap/Form'
 import Button from '../../node_modules/react-bootstrap/Button'
@@ -7,11 +7,13 @@ import { useAuth } from '../hooks/useAuth';
 import { useState } from 'react';
 import login from '../images/login.jpg'
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 
 const SignupForm = () => {
     const { signIn, setUsername } = useAuth()
     const [authFailed, setAuthFailed] = useState(false)
+    const { t } = useTranslation()
 
   const formik = useFormik({
     initialValues: {
@@ -45,22 +47,22 @@ const SignupForm = () => {
 
                         <div className='col-12 col-md-6 d-flex justify-content-center'>
                             <Form onSubmit={formik.handleSubmit} >
-                                <h1 className='mb-3 text-center'>Войти</h1>
+                                <h1 className='mb-3 text-center'>{t('login.header')}</h1>
                                 <Form.Group className='mb-3'>
-                                    <Form.Label className='visually-hidden'>username</Form.Label>
+                                    <Form.Label className='visually-hidden'>{t('login.username')}</Form.Label>
                                     <Form.Control type="username" id="username" name="username"placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
                                     <div>{formik.errors.password}</div>
                                 </Form.Group>
                                 <Form.Group className='mb-3'>
-                                    <Form.Label className='visually-hidden'>Password</Form.Label>
+                                    <Form.Label className='visually-hidden'>{t('login.password')}</Form.Label>
                                     <Form.Control type="password" id="password" name="password"placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
-                                    {authFailed && <div>Неверное имя или пароль</div>}
+                                    {authFailed && <div>{t('login.authFailed')}</div>}
                                 </Form.Group>
-                                <Button type="submit" className='w-100 mb-3'>Войти</Button>
+                                <Button type="submit" className='w-100 mb-3'>{t('login.header')}</Button>
                             </Form>
                         </div>
                     </div>
-                    <div className="card-footer p-sm-4 text-center">Нет аккаунта? <Link to='/signup'>Регистрация</Link></div>
+                    <div className="card-footer p-sm-4 text-center">{t('login.newToChat')}<Link to='/signup'>{t('login.signup')}</Link></div>
 
                 </div>
             </div>
