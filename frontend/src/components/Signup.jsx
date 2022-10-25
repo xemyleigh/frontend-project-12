@@ -10,6 +10,7 @@ import axios from 'axios'
 import { useState } from "react"
 import { useAuth } from "../hooks/useAuth"
 import { useTranslation } from "react-i18next"
+import { toast } from 'react-toastify'
 
 
 const Signup = () => {
@@ -40,11 +41,18 @@ const Signup = () => {
 
                 navigate('/')
             } catch(e) {
-                console.log(e)
-                if (e.response.status === 409) {
-                    console.log('user already exists')
+                if (e.response?.status === 409) {
                     setUserExistsState(true)
+                    return
                 }
+    
+                if (e.isAxiosError) {
+                    toast(t('errors.network'))
+                    throw e
+                } else {
+                    toast(t('erros.unknown'))
+                }
+    
 
             }
             

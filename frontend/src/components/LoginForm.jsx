@@ -8,6 +8,9 @@ import { useState } from 'react';
 import login from '../images/login.jpg'
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
+import FloatingLabel from "react-bootstrap/esm/FloatingLabel"
+
 
 
 const SignupForm = () => {
@@ -30,7 +33,17 @@ const SignupForm = () => {
             await signIn(username, formik.values.password)
             setUsername(username)    
         } catch(e) {
-            if (e.response.status === 401) setAuthFailed(true)
+            if (e.response?.status === 401) {
+                console.log(e.isAxiosError)
+                setAuthFailed(true)
+                return
+            }
+
+            if (e.isAxiosError) {
+                toast.error(t('errors.network'))
+            } else {
+                toast.error(t('erros.unknown'))
+            }
         }
     },
   });
@@ -48,16 +61,23 @@ const SignupForm = () => {
                         <div className='col-12 col-md-6 d-flex justify-content-center'>
                             <Form onSubmit={formik.handleSubmit} >
                                 <h1 className='mb-3 text-center'>{t('login.header')}</h1>
-                                <Form.Group className='mb-3'>
-                                    <Form.Label className='visually-hidden'>{t('login.username')}</Form.Label>
-                                    <Form.Control type="username" id="username" name="username"placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
-                                    <div>{formik.errors.password}</div>
+
+                                <Form.Group className='form-floating mb-3'>
+                                    <FloatingLabel className='' label={t('login.username')}>
+                                        <Form.Control onBlur={formik.handleBlur} type="username" isInvalid={authFailed} id="username" name="username" placeholder="username" onChange={formik.handleChange} required value={formik.values.username}/>
+                                    </FloatingLabel>
                                 </Form.Group>
-                                <Form.Group className='mb-3'>
-                                    <Form.Label className='visually-hidden'>{t('login.password')}</Form.Label>
-                                    <Form.Control type="password" id="password" name="password"placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
-                                    {authFailed && <div>{t('login.authFailed')}</div>}
+
+
+                                <Form.Group className='form-floating mb-3'>
+                                    <FloatingLabel className='' label={t('login.password')}>
+                                        <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={authFailed} id="password" name="password" placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
+                                        <Form.Control.Feedback type="invalid" tooltip>
+                                            {t('login.authFailed')}
+                                        </Form.Control.Feedback>
+                                    </FloatingLabel>
                                 </Form.Group>
+
                                 <Button type="submit" className='w-100 mb-3'>{t('login.header')}</Button>
                             </Form>
                         </div>

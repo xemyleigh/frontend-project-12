@@ -1,11 +1,12 @@
 import { useFormik } from "formik"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { actions as modalActions } from "../slices/modalSlice"
 import { actions as channelsActions } from "../slices/channelsSlice"
 import { useApi } from "../hooks/useAuth"
 import { useTranslation } from "react-i18next"
+import { toast } from "react-toastify"
 
 const AddChannelModal = () => {
     const dispatch = useDispatch()
@@ -13,6 +14,8 @@ const AddChannelModal = () => {
     const channels = useSelector(state => state.channels.channels)
     const channelsNames = channels.map(channel => channel.name)
     const { t } = useTranslation()
+    const [ loadingStatus, setLoadingStatus ] = useState(false)
+
 
 
     const closeHandler = () => {
@@ -22,16 +25,22 @@ const AddChannelModal = () => {
     const formik = useFormik({ initialValues: { newValue: '' }, onSubmit: async values => {
         console.log()
         const newChannelName = values.newValue
+            setLoadingStatus(true)
             try {
                 if (!channelsNames.includes(newChannelName)) {
+            
                     const data = await addChannel(newChannelName)
                     dispatch(modalActions.closeModal())
                     dispatch(channelsActions.setChannel(data.id))
+                    toast.success(t('channels.created'))
+
                 } else {
+
                     throw Error('channel already exists')
+
                 }
             } catch(e) {
-                console.log(e)
+                setLoadingStatus(false)
             }
     } })
 
@@ -54,8 +63,8 @@ const AddChannelModal = () => {
                                     <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
                                     <div className="invalid-feedback"></div>
                                     <div className="d-flex justify-content-end">
-                                        <button type="button" className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
-                                        <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
+                                        <button type="button" disabled={loadingStatus} className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
+                                        <button type="submit" disabled={loadingStatus} className="btn btn-primary">{t('modals.submit')}</button>
                                     </div>
                                 </div>
                             </form>
@@ -75,22 +84,25 @@ const RemoveChannelModal = () => {
     const { t } = useTranslation()
 
 
-    let loading = false
+    const [ loadingStatus, setLoadingStatus ] = useState(false)
 
     const closeHandler = () => {
         dispatch(modalActions.closeModal())
     }
 
     const removeHandler = (id) => async () => {
+        setLoadingStatus(true)
         try {
-            loading = true
+            console.log(loadingStatus)
             await removeChannel(id)
             dispatch(modalActions.closeModal())
             if (id === currentChannelId) {
                 dispatch(channelsActions.setChannel(1))
             }
+            toast.success(t('channels.removed'))
         } catch(e) {
             console.log(e)
+            setLoadingStatus(false)
         }
         
     }
@@ -107,8 +119,8 @@ const RemoveChannelModal = () => {
                         <div className="modal-body">
                             <div>
                                 <div className="d-flex justify-content-end gap-2">
-                                    <button type="" onClick={closeHandler} disabled={loading} className="btn btn-secondary mr-2">{t('modals.cancel')}</button>
-                                    <button onClick={removeHandler(idToRemove)} disabled={loading} className="btn btn-danger">{t('modals.confirm')}</button>
+                                    <button disabled={loadingStatus} type="" onClick={closeHandler} className="btn btn-secondary mr-2">{t('modals.cancel')}</button>
+                                    <button onClick={removeHandler(idToRemove)} disabled={loadingStatus} className="btn btn-danger">{t('modals.confirm')}</button>
                                 </div>
                             </div>
                         </div>
@@ -126,6 +138,8 @@ const RenameChannelModal = () => {
     const channelsNames = channels.map(channel => channel.name)
     const idToRename = useSelector(state => state.modalInfo.channelId)
     const { t } = useTranslation()
+    const [ loadingStatus, setLoadingStatus ] = useState(false)
+
 
     const closeHandler = () => {
         dispatch(modalActions.closeModal())
@@ -134,18 +148,20 @@ const RenameChannelModal = () => {
     const formik = useFormik({ initialValues: { newValue: '' }, onSubmit: async values => {
         console.log()
         const newChannelName = values.newValue
+        setLoadingStatus(true)
             try {
                 if (!channelsNames.includes(newChannelName)) {
                     console.log(idToRename)
 
                     await renameChannel(idToRename, newChannelName)
                     dispatch(modalActions.closeModal())
+                    toast.success(t('channels.renamed'))
+
                 } else {
                     throw Error('channel already exists')
                 }
             } catch(e) {
-                console.log(e)
-            }
+                setLoadingStatus(false)            }
     } })
 
     const input = useRef(null)
@@ -167,8 +183,8 @@ const RenameChannelModal = () => {
                                     <label className="visually-hidden" htmlFor="name">{t('modals.editChannelName')}</label>
                                     <div className="invalid-feedback"></div>
                                     <div className="d-flex justify-content-end">
-                                        <button type="button" className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
-                                        <button type="submit" className="btn btn-primary">{t('modals.submit')}</button>
+                                        <button type="button" disabled={loadingStatus} className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
+                                        <button type="submit" disabled={loadingStatus} className="btn btn-primary">{t('modals.submit')}</button>
                                     </div>
                                 </div>
                             </form>
