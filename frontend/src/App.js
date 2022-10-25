@@ -7,13 +7,13 @@ import { Routes, Route } from 'react-router-dom';
 import RequireAuth from './hoc/RequireAuth'
 import AuthContextProvider from './hoc/AuthContextProvider';
 import ApiContextProvider from './hoc/ApiContextProvider';
+import { ToastContainer } from 'react-toastify'
 
 import ChatPage from './components/ChatPage';
 
 const App = () => {
   return (
     <AuthContextProvider>
-      <ApiContextProvider>
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={
@@ -26,7 +26,7 @@ const App = () => {
             <Route path='*' element={<NotFoundPage />}/>
           </Route>
         </Routes>
-      </ApiContextProvider>
+        <ToastContainer />
     </AuthContextProvider>
   )
 };
