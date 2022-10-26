@@ -7,6 +7,7 @@ import { actions as channelsActions } from "../slices/channelsSlice"
 import { useApi } from "../hooks/useAuth"
 import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
+import { Form, Button } from 'react-bootstrap'
 
 const AddChannelModal = () => {
     const dispatch = useDispatch()
@@ -15,16 +16,16 @@ const AddChannelModal = () => {
     const channelsNames = channels.map(channel => channel.name)
     const { t } = useTranslation()
     const [ loadingStatus, setLoadingStatus ] = useState(false)
-
+    const [ creationFailed, setCreationFailedStatus ] = useState(false)
 
 
     const closeHandler = () => {
         dispatch(modalActions.closeModal())
     }
 
-    const formik = useFormik({ initialValues: { newValue: '' }, onSubmit: async values => {
+    const formik = useFormik({ initialValues: { newChannel: '' }, onSubmit: async values => {
         console.log()
-        const newChannelName = values.newValue
+        const newChannelName = values.newChannel
             setLoadingStatus(true)
             try {
                 if (!channelsNames.includes(newChannelName)) {
@@ -37,6 +38,7 @@ const AddChannelModal = () => {
                     throw Error('channel already exists')
                 }
             } catch(e) {
+                setCreationFailedStatus(true)
                 setLoadingStatus(false)
             }
     } })
@@ -54,17 +56,17 @@ const AddChannelModal = () => {
                             <button type="button" aria-label="Close" onClick={closeHandler} data-bs-dismiss="modal" className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
-                            <form onSubmit={formik.handleSubmit}>
-                                <div>
-                                    <input className="mb-2 form-control" name="newValue" id='newValue' value={formik.values.newValue} onChange={formik.handleChange} ref={input}/>
-                                    <label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</label>
-                                    <div className="invalid-feedback"></div>
-                                    <div className="d-flex justify-content-end">
-                                        <button type="button" disabled={loadingStatus} className="me-2 btn btn-secondary">{t('modals.cancel')}</button>
-                                        <button type="submit" disabled={loadingStatus} className="btn btn-primary">{t('modals.submit')}</button>
-                                    </div>
+                            <Form onSubmit={formik.handleSubmit}>
+                                <Form.Group className='form-floating mb-2'>
+                                        <Form.Control onBlur={formik.handleBlur} ref={input} type="newChannel" isInvalid={creationFailed} id="newChannel" name="newChannel" onChange={formik.handleChange} value={formik.values.newValue}/>
+                                        <Form.Control.Feedback type="invalid" tooltip>{t('modals.uniq')}</Form.Control.Feedback>
+                                        <Form.Label htmlFor="newChannel">{t('modals.channelName')}</Form.Label>
+                                </Form.Group>
+                                <div className="d-flex justify-content-end">
+                                    <Button type='button' disabled={loadingStatus} className='me-2 btn btn-secondary'>{t('modals.cancel')}</Button>
+                                    <Button type="submit" disabled={loadingStatus}>{t('modals.submit')}</Button>
                                 </div>
-                            </form>
+                            </Form>
                         </div>
                     </div>
                 </div>
@@ -134,15 +136,17 @@ const RenameChannelModal = () => {
     const channels = useSelector(state => state.channels.channels)
     const channelsNames = channels.map(channel => channel.name)
     const idToRename = useSelector(state => state.modalInfo.channelId)
+    const currentChannel = channels.find(channel => channel.id === idToRename)
     const { t } = useTranslation()
     const [ loadingStatus, setLoadingStatus ] = useState(false)
+    const [ renamingFailStatus, setRenamingStatus ] = useState(false)
 
 
     const closeHandler = () => {
         dispatch(modalActions.closeModal())
     }
 
-    const formik = useFormik({ initialValues: { newValue: '' }, onSubmit: async values => {
+    const formik = useFormik({ initialValues: { newValue: currentChannel.name }, onSubmit: async values => {
         console.log()
         const newChannelName = values.newValue
         setLoadingStatus(true)
@@ -155,6 +159,7 @@ const RenameChannelModal = () => {
                     toast.success(t('channels.renamed'))
 
                 } else {
+                    setRenamingStatus(true)
                     throw Error('channel already exists')
                 }
             } catch(e) {
@@ -163,6 +168,8 @@ const RenameChannelModal = () => {
 
     const input = useRef(null)
     useEffect(() => input.current.focus(), [])
+
+    
 
     return (
         <>
@@ -174,7 +181,19 @@ const RenameChannelModal = () => {
                             <button type="button" aria-label="Close" onClick={closeHandler} data-bs-dismiss="modal" className="btn btn-close"></button>
                         </div>
                         <div className="modal-body">
-                            <form onSubmit={formik.handleSubmit}>
+                            <Form onSubmit={formik.handleSubmit}>
+                                <Form.Group className='form-floating mb-2'>
+                                        <Form.Control onBlur={formik.handleBlur} ref={input} type="newValue" isInvalid={renamingFailStatus} id="newValue" name="newValue" onChange={formik.handleChange} value={formik.values.newValue}/>
+                                        <Form.Control.Feedback type="invalid" tooltip>{t('modals.uniq')}</Form.Control.Feedback>
+                                        <Form.Label htmlFor="newValue">{t('modals.channelName')}</Form.Label>
+                                </Form.Group>
+                                <div className="d-flex justify-content-end">
+                                    <Button type='button' disabled={loadingStatus} className='me-2 btn btn-secondary'>{t('modals.cancel')}</Button>
+                                    <Button type="submit" disabled={loadingStatus}>{t('modals.submit')}</Button>
+                                </div>
+                            </Form>
+
+                            {/* <form onSubmit={formik.handleSubmit}>
                                 <div>
                                     <input className="mb-2 form-control" name="newValue" id='newValue' value={formik.values.newValue} onChange={formik.handleChange} ref={input}/>
                                     <label className="visually-hidden" htmlFor="name">{t('modals.editChannelName')}</label>
@@ -184,7 +203,7 @@ const RenameChannelModal = () => {
                                         <button type="submit" disabled={loadingStatus} className="btn btn-primary">{t('modals.submit')}</button>
                                     </div>
                                 </div>
-                            </form>
+                            </form> */}
                         </div>
                     </div>
                 </div>
