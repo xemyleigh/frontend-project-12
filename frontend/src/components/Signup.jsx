@@ -61,6 +61,7 @@ const Signup = () => {
 
     const input = useRef(null)
     useEffect(() => input.current.focus(), [])
+    console.log(formik.handleBlur)
   
 
     return (
@@ -78,30 +79,27 @@ const Signup = () => {
                             <Form noValidate validated={false} onSubmit={formik.handleSubmit} className='w-100' >
                                 <h1 className='mb-3 text-center'>{t('signup.header')}</h1>
                                 <Form.Group className='form-floating mb-3'>
-                                    <FloatingLabel className='' label={t('signup.username')}>
-                                        <Form.Control onBlur={formik.handleBlur} type="username" ref={input} isInvalid={(formik.errors.username || userAlreadyExists) || false} id="username" name="username" placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
+                                        <Form.Control required onBlur={formik.handleBlur} type="username" ref={input} isInvalid={(formik.errors.username || userAlreadyExists) || false} id="username" name="username" placeholder={t('signup.usernameConstraints')} onChange={formik.handleChange} value={formik.values.username}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
                                                 {formik.errors.username}
                                         </Form.Control.Feedback>
-                                    </FloatingLabel>
+                                        <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
                                 </Form.Group>
 
                                 <Form.Group className='form-floating mb-3'>
-                                    <FloatingLabel className='' label={t('signup.password')}>
                                         <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={(formik.errors.password || userAlreadyExists) || false} id="password" name="password" placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
                                             {formik.errors.password}
                                         </Form.Control.Feedback>
-                                    </FloatingLabel>
+                                        <Form.Label htmlFor="password">{t('signup.password')}</Form.Label>
                                 </Form.Group>
 
                                 <Form.Group className='mb-3 '>
-                                    <FloatingLabel className='' label={t('signup.confirm')}>
                                         <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={(formik.errors.repeatPassword || userAlreadyExists) || false} id="repeatPassword" name="repeatPassword" placeholder="repeatPassword" onChange={formik.handleChange} value={formik.values.repeatPassword}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
                                             {formik.errors.repeatPassword || (userAlreadyExists) && t('signup.alreadyExists')}
                                         </Form.Control.Feedback>
-                                    </FloatingLabel>
+                                        <Form.Label htmlFor="repeatPassword">{t('signup.confirm')}</Form.Label>
                                 </Form.Group>
 
                                 <Button type="submit" /*disabled={!formik.isValid}*/ className='w-100 mb-3'>{t('signup.submit')}</Button>
