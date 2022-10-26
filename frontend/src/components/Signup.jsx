@@ -104,7 +104,7 @@ const Signup = () => {
                                     </FloatingLabel>
                                 </Form.Group>
 
-                                <Button type="submit" disabled={!formik.isValid} className='w-100 mb-3'>{t('signup.submit')}</Button>
+                                <Button type="submit" /*disabled={!formik.isValid}*/ className='w-100 mb-3'>{t('signup.submit')}</Button>
                             </Form>
                         </div>
                     </div>
