@@ -35,6 +35,7 @@ export default () => {
                 clearTimeout(timerId)
                 console.log(response.status)
                 if (response.status === 'ok') {
+                    console.log(response.data)
                     resolve(response.data);
                 }
             });
@@ -48,7 +49,8 @@ export default () => {
     }
 
     const addChannel = async (channelName) => {
-        await wrapper('newChannel', { name: channelName })
+        const response = await wrapper('newChannel', { name: channelName })
+        return response
     }
 
     const renameChannel = async (id, name) => {

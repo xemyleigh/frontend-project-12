@@ -28,7 +28,7 @@ const AddChannelModal = () => {
             setLoadingStatus(true)
             try {
                 if (!channelsNames.includes(newChannelName)) {
-            
+                    console.log(123123123123123)
                     const data = await addChannel(newChannelName)
                     dispatch(modalActions.closeModal())
                     dispatch(channelsActions.setChannel(data.id))

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import { useApi, useAuth } from '../hooks/useAuth'
 import { animateScroll } from 'react-scroll'
 import { useTranslation } from 'react-i18next'
+import leoProfanity from 'leo-profanity'
 
 const Message = ({ body, username }) => {
     return (
@@ -42,7 +43,8 @@ const ChatContainer = () => {
     const submitHandler = (e) => {
         e.preventDefault()
         try {
-            sendMessage(value, currentChannelId, username)
+            const filteredValue = leoProfanity.clean(value)
+            sendMessage(filteredValue, currentChannelId, username)
             setValue('')
         } catch(e) {
             console.log(e)
