@@ -6,12 +6,13 @@ import Signup from './components/Signup';
 import { Routes, Route } from 'react-router-dom';
 import RequireAuth from './hoc/RequireAuth'
 import AuthContextProvider from './hoc/AuthContextProvider';
-import ApiContextProvider from './hoc/ApiContextProvider';
 import { ToastContainer } from 'react-toastify'
 
 import ChatPage from './components/ChatPage';
 
 const App = () => {
+  console.log(process.env)
+
   return (
     <AuthContextProvider>
         <Routes>

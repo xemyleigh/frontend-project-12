@@ -33,11 +33,8 @@ const AddChannelModal = () => {
                     dispatch(modalActions.closeModal())
                     dispatch(channelsActions.setChannel(data.id))
                     toast.success(t('channels.created'))
-
                 } else {
-
                     throw Error('channel already exists')
-
                 }
             } catch(e) {
                 setLoadingStatus(false)

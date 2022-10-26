@@ -11,6 +11,7 @@ import { Provider } from 'react-redux';
 import store from './slices/index';
 import 'react-toastify/dist/ReactToastify.css';
 import ApiContext from './hoc/ApiContextProvider';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 import { io } from 'socket.io-client'
 import { actions as channelsActions } from './slices/channelsSlice'
@@ -95,15 +96,28 @@ export default () => {
         fallbackLng: "ru",
     })
 
+    const rollbarConfig = {
+        accessToken: '8139796d83324d14816972951bb70972',
+        captureUncaught: true,
+        captureUnhandledRejections: true,
+        payload: {
+          environment: 'production',
+        },
+    }
+
     return (
-        <Provider store={store}>
-            <ApiContext.Provider value={{ removeChannel, sendMessage, addChannel, renameChannel }}>
-                <I18nextProvider i18n={i18n}>
-                    <Router>
-                        <App />
-                    </Router>
-                </I18nextProvider>
-            </ApiContext.Provider>
-        </Provider>
+        <RollbarProvider config={rollbarConfig}>
+            <ErrorBoundary>
+                <Provider store={store}>
+                    <ApiContext.Provider value={{ removeChannel, sendMessage, addChannel, renameChannel }}>
+                        <I18nextProvider i18n={i18n}>
+                            <Router>
+                                <App />
+                            </Router>
+                        </I18nextProvider>
+                    </ApiContext.Provider>
+                </Provider>
+            </ErrorBoundary>
+        </RollbarProvider>
     )
   }
