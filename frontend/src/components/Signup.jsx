@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import reg from '../images/reg.jpg'
 import Form from '../../node_modules/react-bootstrap/Form'
 import Button from '../../node_modules/react-bootstrap/Button'
@@ -59,9 +59,10 @@ const Signup = () => {
         },
       });
 
-    // setUserExistsState(false)
+    const input = useRef(null)
+    useEffect(() => input.current.focus(), [])
+  
 
-    
     return (
         <div className='container-fluid'>
         <div className='row align-content-center justify-content-center'>
@@ -78,7 +79,7 @@ const Signup = () => {
                                 <h1 className='mb-3 text-center'>{t('signup.header')}</h1>
                                 <Form.Group className='form-floating mb-3'>
                                     <FloatingLabel className='' label={t('signup.username')}>
-                                        <Form.Control onBlur={formik.handleBlur} type="username" isInvalid={(formik.errors.username || userAlreadyExists) || false} id="username" name="username" placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
+                                        <Form.Control onBlur={formik.handleBlur} type="username" ref={input} isInvalid={(formik.errors.username || userAlreadyExists) || false} id="username" name="username" placeholder="username" onChange={formik.handleChange} value={formik.values.username}/>
                                         <Form.Control.Feedback type="invalid" tooltip>
                                                 {formik.errors.username}
                                         </Form.Control.Feedback>

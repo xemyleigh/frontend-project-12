@@ -1,4 +1,4 @@
-import React, { useTransition } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import Form from '../../node_modules/react-bootstrap/Form'
 import Button from '../../node_modules/react-bootstrap/Button'
@@ -47,6 +47,11 @@ const SignupForm = () => {
         }
     },
   });
+
+  const input = useRef(null)
+  useEffect(() => input.current.focus(), [])
+
+
   return (
     <div className='container'>
         <div className='row align-content-center justify-content-center'>
@@ -64,7 +69,7 @@ const SignupForm = () => {
 
                                 <Form.Group className='form-floating mb-3'>
                                     <FloatingLabel className='' label={t('login.username')}>
-                                        <Form.Control onBlur={formik.handleBlur} type="username" isInvalid={authFailed} id="username" name="username" placeholder="username" onChange={formik.handleChange} required value={formik.values.username}/>
+                                        <Form.Control ref={input} onBlur={formik.handleBlur} type="username" isInvalid={authFailed} id="username" name="username" placeholder="username" onChange={formik.handleChange} required value={formik.values.username}/>
                                     </FloatingLabel>
                                 </Form.Group>
 
