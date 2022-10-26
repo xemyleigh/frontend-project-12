@@ -74,11 +74,9 @@ const SignupForm = () => {
 
 
                                 <Form.Group className='form-floating mb-3'>
-                                    <FloatingLabel className='' label={t('login.password')}>
                                         <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={authFailed} id="password" name="password" placeholder="password" onChange={formik.handleChange} value={formik.values.password}/>
                                         <Form.Control.Feedback type="invalid" tooltip>{t('login.authFailed')}</Form.Control.Feedback>
                                         <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
-                                    </FloatingLabel>
                                 </Form.Group>
 
                                 <Button type="submit" className='w-100 mb-3'>{t('login.header')}</Button>
