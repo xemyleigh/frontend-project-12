@@ -1,6 +1,6 @@
-import init from "./init";
-import ReactDOM from "react-dom/client";
-import React from "react";
+import ReactDOM from 'react-dom/client';
+import React from 'react';
+import init from './init';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -9,4 +9,3 @@ root.render(
     {init()}
   </React.StrictMode>,
 );
-
