@@ -88,7 +88,7 @@ const Signup = () => {
                   <Form.Group className="form-floating mb-3">
                     <Form.Control onBlur={formik.handleBlur} type="password" isInvalid={(formik.errors.repeatPassword || userAlreadyExists) || false} id="repeatPassword" name="repeatPassword" placeholder="repeatPassword" onChange={formik.handleChange} value={formik.values.repeatPassword} />
                     <Form.Control.Feedback type="invalid" tooltip>
-                      {(formik.errors.repeatPassword || (userAlreadyExists)) && t('signup.alreadyExists')}
+                      {formik.errors.repeatPassword || ((userAlreadyExists) && t('signup.alreadyExists'))}
                     </Form.Control.Feedback>
                     <Form.Label htmlFor="repeatPassword">{t('signup.confirm')}</Form.Label>
                   </Form.Group>
