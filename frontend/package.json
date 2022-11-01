@@ -11,10 +11,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.1.2",
     "bootstrap": "^5.2.2",
-    "eslint": "^8.24.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-react-app": "^7.0.1",
-    "eslint-plugin-react": "^7.31.8",
     "formik": "^2.2.9",
     "i18next": "^22.0.2",
     "leo-profanity": "^1.6.1",
@@ -51,6 +47,12 @@
     ]
   },
   "devDependencies": {
-    "eslint-plugin-functional": "^5.0.0-beta.8"
+    "eslint": "^8.26.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-functional": "^5.0.0-beta.8",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.6.1",
+    "eslint-plugin-react": "^7.31.10",
+    "eslint-plugin-react-hooks": "^4.6.0"
   }
 }

@@ -34,10 +34,8 @@ const init = () => {
 
     socket.emit(event, ...args, (response) => {
       clearTimeout(timerId);
-      console.log(response.status);
 
       if (response.status === 'ok') {
-        console.log(response.data);
         resolve(response.data);
       }
 
@@ -55,7 +53,6 @@ const init = () => {
   };
 
   const renameChannel = async (id, name) => {
-    console.log(id, name);
     await wrapper('renameChannel', { id, name });
   };
 
@@ -64,8 +61,6 @@ const init = () => {
   };
 
   socket.on('newMessage', (payload) => {
-    console.log('ПОДПИСКА ОФОРМЕЛНА НА СООБЩЕНИЯ');
-    console.log(payload);
     store.dispatch(messageActions.createNewMessage(payload));
   });
 
@@ -79,7 +74,6 @@ const init = () => {
   });
 
   socket.on('renameChannel', (payload) => {
-    console.log(payload);
     store.dispatch(channelsActions.renameChannel(payload));
   });
 

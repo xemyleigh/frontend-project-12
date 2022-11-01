@@ -1,11 +1,8 @@
-import { Navigate } from "react-router-dom"
-import { useAuth } from '../hooks/useAuth'
-console.log(useAuth)
+import { Navigate } from 'react-router-dom';
 
 const RequireAuth = ({ children }) => {
-    if (!localStorage.token) {return <Navigate to='/login' />}
+  if (!localStorage.token) { return <Navigate to="/login" />; }
+  return children;
+};
 
-    return (<>{children}</>) 
-}
-
-export default RequireAuth
+export default RequireAuth;
