@@ -50,8 +50,7 @@ const ChatContainer = () => {
       <div className="d-flex flex-column" style={{ height: `${79}vh` }}>
         <div className="bg-light shadow mb-4 p-3">
           <p className="m-0">
-            #
-            {currentChannel?.name}
+            <b>{`# ${currentChannel?.name}`}</b>
           </p>
           <span className="text-muted">{`${filteredMessage.length} ${t('chat.messageCount', { count: filteredMessage.length })}`}</span>
         </div>
